@@ -1,3 +1,5 @@
 solr/
 node_modules/
 .DS_Store
+cache/*
+!cache/index.js

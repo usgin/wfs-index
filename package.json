@@ -4,7 +4,7 @@
   "description": "Scrape a WFS into a Solr index",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=testing vows tests/* --spec"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,14 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ngds/wfs-index/issues"
+  },
+  "dependencies": {
+    "solr-client": "~0.2.7",
+    "request": "~2.27.0",
+    "underscore": "~1.5.1",
+    "node-expat": "~2.0.0"
+  },
+  "devDependencies": {
+    "vows": "~0.7.0"
   }
 }
