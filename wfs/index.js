@@ -1,18 +1,11 @@
 var request = require('request'),
     url = require('url'),
     qs = require('querystring'),
-    crypto = require('crypto'),
+    
     _ = require('underscore'),
     expat = require('node-expat'),
-    fs = require('fs'),
-    path = require('path'),
-    Wfs2GeoJSON = require('./wfs2geojson');
-
-function cachedFileName(inputUrl) {
-    var hash = crypto.createHash('sha256');
-    hash.update(inputUrl);
-    return path.resolve(path.dirname(__filename), '..', 'cache', hash.digest('hex'));
-}
+    
+    couch = require('../couch');
 
 function WFS(wfsUrl, wfsVersion) {
     if (!wfsUrl) { throw new Error('A wfsUrl must be specified'); }
@@ -31,8 +24,6 @@ function WFS(wfsUrl, wfsVersion) {
         version: wfsVersion,
         request: 'GetCapabilities'
     });
-    
-    this.cachedCapabilitiesFile = cachedFileName(url.format(this.capabilitiesUrl));
     
     this.wfsVersion = wfsVersion || '1.0.0';
 }
@@ -92,57 +83,34 @@ WFS.prototype.listFeatureTypes = function (callback) {
         callback(err);
     });
 
-    
-    var cachedFile = this.cachedCapabilitiesFile;
-    
-    function readCachedFile() {
-        var capabilitiesFile = fs.createReadStream(cachedFile);
-        capabilitiesFile.pipe(parser);
-    }
-
-    if (!fs.exists(cachedFile)) {
-        var cachedCapabilities = fs.createWriteStream(cachedFile),
-            req = request(url.format(this.capabilitiesUrl));
-        
-        req.on('end', readCachedFile);
-        req.pipe(cachedCapabilities);
-    }
-    
-    else { readCachedFile(); }
+    request(url.format(this.capabilitiesUrl)).pipe(parser);
 };
 
-/*
-Need to handle errors in the stream -- what happens if the connection drops? Take ogr2ogr out of the http request pipeline.
-*/
 WFS.prototype.getAllFeatures = function (featuretype, callback) {
-    var theUrl = url.format(this.getFeatureUrl(featuretype)),
-        wfs2geojson = new Wfs2GeoJSON(),
-        cachedFile = cachedFileName(theUrl),
-        geojson = '';
+    var getFeatureUrl = url.format(this.getFeatureUrl(featuretype)),
+        wfsDocId = couch.url2Id(getFeatureUrl);
     
-    function readFromCache() {
-        fs.readFile(cachedFile, function (err, geojson) {
-            var features = [],
-                error = err;
-            
-            try { features = JSON.parse(geojson).features; }
-            catch (parseError) { error = parseError; }
-
-            callback(error, features);
-        });
-    }
-    
-    if (!fs.existsSync(cachedFile)) {
-        var cachedFeatures = fs.createWriteStream(cachedFile);
-        wfs2geojson.on('outputReady', function () {
-            wfs2geojson.output.on('end', readFromCache);
-            wfs2geojson.output.pipe(cachedFeatures);
-        });
+    function cachedWfs(err, response) {
+        if (err) { callback(err); return; }
         
-        request(theUrl).pipe(wfs2geojson.input);
+        couch.cacheFeatures(getFeatureUrl, callback); // function (wfsRequestUrl, callback)
     }
     
-    else { readFromCache(); }
+    function gotWfsResponse(err, response, body) {
+        if (err) { callback(err); return; }
+        
+        couch.cacheWfs(getFeatureUrl, body, cachedWfs); // function (wfsRequestUrl, wfsResponseString, callback)
+    }
+    
+    function checkCache(err, doc) {
+        if (err && err.status_code !== 404) { callback(err); return; }
+        
+        if (doc) { callback(null, doc._id); return; }
+        
+        request(getFeatureUrl, gotWfsResponse);  
+    }
+    
+    couch.dbs['wfs-cache'].get(wfsDocId, checkCache);
 };
 
 module.exports = WFS;
