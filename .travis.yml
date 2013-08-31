@@ -6,3 +6,4 @@ services:
   - couchdb
 before_install:
   - sudo apt-get install gdal-bin
+  - ogr2ogr --formats
