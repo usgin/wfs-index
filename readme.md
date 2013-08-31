@@ -1,4 +1,5 @@
 # wfs-index
+[![Build Status](https://travis-ci.org/usgin/wfs-index.png)](https://travis-ci.org/usgin/wfs-index)
 
 In a [USGIN-style](http://usgin.org) data systems, data sets are conveyed as OGC Web-Feature Services (WFS), and are served by a distributed network of data providers. Each of these services is cataloged in one (or several) metadata-aggregating services that conform to the OGC's Catalog Service for the Web (CSW).
 
