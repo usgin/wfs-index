@@ -10,3 +10,4 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install gdal-bin
   - ogr2ogr --formats
+  - curl https://raw.github.com/rclark/travis-solr/master/travis-solr.sh | SOLR_VERSION=3.6.1 bash
