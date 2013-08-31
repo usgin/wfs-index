@@ -1,3 +1,3 @@
 module.exports = {
-    thermalSprings: require('./thermalSprings')
+    thermalSprings: require('./thermalSprings').toString()
 };
