@@ -30,6 +30,7 @@ This Solr index will provide an endpoint that can be searched by a thin, front-e
 - [Git](http://git-scm.com/)
 - [Node.js](http://nodejs.org/)
 - [Apache Solr]((http://lucene.apache.org/solr/)
+- [CouchDB](http://couchdb.apache.org/)
 
 ### Then:
 
