@@ -16,7 +16,7 @@ module.exports = function Wfs2GeoJSON(wfsFeaturesString, callback) {
         try {
             result = JSON.parse(geojson).features || [];
         } catch (oops) {
-            err = opps;
+            err = oops;
         }
         
         callback(err, result);    
