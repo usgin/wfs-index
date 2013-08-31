@@ -1,4 +1,5 @@
 var crypto = require('crypto'),
+    url = require('url'),
     
     nano = require('nano'),
     _ = require('underscore'),
@@ -36,9 +37,10 @@ var couch = {
     
     cacheWfs: function (wfsRequestUrl, wfsResponseString, callback) {
         var doc = { 
-            requestUrl: wfsRequestUrl,
-            response: wfsResponseString 
-        },
+                requestUrl: wfsRequestUrl,
+                response: wfsResponseString 
+            },
+            
             docId = hashUrl(wfsRequestUrl);
         
         updateDoc(connection.db.use('wfs-cache'), docId, doc, callback);
@@ -51,6 +53,20 @@ var couch = {
             hashUrl(wfsRequestUrl), 
             callback
         );
+    },
+    
+    cacheCsw: function (cswRequestUrl, cswResponseString, callback) {
+        var parsedUrl = url.parse(cswRequestUrl, true, true),
+            
+            doc = {
+                requestUrl: cswRequestUrl,
+                requestType: parsedUrl.query.request,
+                response: cswResponseString
+            },
+            
+            docId = hashUrl(cswRequestUrl);
+        
+        updateDoc(connection.db.use('csw-cache'), docId, doc, callback);
     }
 };
 

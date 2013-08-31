@@ -8,7 +8,7 @@ var vows = require('vows'),
     wfs100GetFeatureUrl, wfs110GetFeatureUrl;
 
 vows.describe('The WFS Module').addBatch({
-    'after construction against a know WFS 1.1.0 endpoint': {
+    'after construction against a known WFS 1.1.0 endpoint': {
         topic: function () {
             var url = 'http://services.azgs.az.gov/ArcGIS/services/aasggeothermal/AKThermalSprings1_8/MapServer/WFSServer';
             return new WFS(url, '1.1.0');
@@ -71,7 +71,7 @@ vows.describe('The WFS Module').addBatch({
         }
     },
     
-    'after construction against a know WFS 1.0.0 endpoint': {
+    'after construction against a known WFS 1.0.0 endpoint': {
         topic: function () {
             var url = 'http://data.usgin.org/arizona/ows';
             return new WFS(url, '1.0.0');

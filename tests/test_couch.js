@@ -3,6 +3,7 @@ var vows = require('vows'),
     _ = require('underscore'),
     couch = require('../couch'),
     featureCache = require('../couch/feature-cache'),
+    cswCache = require('../couch/csw-cache'),
     testData = require('../testData');
 
 vows.describe('The CouchDB Module').addBatch({
@@ -87,6 +88,53 @@ vows.describe('The CouchDB Module').addBatch({
                             'the right number of features': function (err, response) {
                                 assert.equal(response.rows[0].value, 10);
                             }
+                        }
+                    }
+                }
+            },
+            'can update csw-cache design docs': {
+                topic: function () {
+                    cswCache.setup(this.callback);
+                },
+                'without failing': function (err, response) {
+                    assert.isNull(err);    
+                },
+                'then cache a CSW record': {
+                    topic: function () {
+                        couch.cacheCsw(testData.cswGetRecordNoWfs.url, testData.cswGetRecordNoWfs.response, this.callback);
+                    },
+                    'without error': function (err, response) {
+                        assert.isNull(err);
+                    },
+                    'and create': {
+                        topic: function () {
+                            couch.dbs['csw-cache'].get(couch.url2Id(testData.cswGetRecordNoWfs.url), this.callback);
+                        },
+                        'the expected doc': function (err, doc) {
+                            assert.equal(doc.response, testData.cswGetRecordNoWfs.response);
+                        },
+                        'without failure': function (err, doc) {
+                            assert.isNull(err);    
+                        }
+                    }
+                },
+                'then cache a CSW GetRecords doc': {
+                    topic: function () {
+                        couch.cacheCsw(testData.cswGetRecordsResponse.url, testData.cswGetRecordsResponse.response, this.callback);
+                    },
+                    'without error': function (err, response) {
+                        assert.isNull(err);
+                    },
+                    'creates': {
+                        topic: function () {
+                            couch.dbs['csw-cache'].view(
+                                'internal', 'byRequestType', 
+                                { key: 'GetRecords' }, 
+                                this.callback
+                            );
+                        },
+                        'the expected number of docs': function (err, response) {
+                            assert.equal(response.rows[0].value, 1);
                         }
                     }
                 }
