@@ -3,8 +3,10 @@ var crypto = require('crypto'),
     nano = require('nano'),
     _ = require('underscore'),
     
+    config = require('../configuration'),
+    
     dbNames = [ 'csw-cache', 'wfs-cache', 'feature-cache' ],
-    connection = require('nano')('http://localhost:5984'),
+    connection = require('nano')(config.dbHost),
     
     updateDoc = require('./updateDoc'),         // function (db, docId, document, callback)
     parseFeatures = require('./parseFeatures'); // function (wfsDb, featureDb, wfsId, callback)

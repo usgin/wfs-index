@@ -4,6 +4,7 @@
   "description": "Scrape a WFS into a Solr index",
   "main": "index.js",
   "scripts": {
+    "prepublish": "node setup.js",
     "test": "NODE_ENV=testing vows tests/* --spec"
   },
   "repository": {
@@ -26,7 +27,8 @@
     "request": "~2.27.0",
     "underscore": "~1.5.1",
     "node-expat": "~2.0.0",
-    "nano": "~4.1.1"
+    "nano": "~4.1.1",
+    "optimist": "~0.6.0"
   },
   "devDependencies": {
     "vows": "~0.7.0"

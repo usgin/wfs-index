@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 cache/*
 !cache/index.js
+configuration.js
+defaults.json
