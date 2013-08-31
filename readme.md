@@ -46,4 +46,4 @@ This Solr index will provide an endpoint that can be searched by a thin, front-e
 
 ### Writing mapping functions
 
-Starter mapping functions are included in the `maps` directory. See these for examples of how to write mapping functions for defining what gets indexed. More to come...
+Starter mapping functions are included in the `maps` directory. See [the thermal springs example](https://rawgithub.com/usgin/wfs-index/master/docs/thermalSprings.html) for an introduction to how to write these functions.
