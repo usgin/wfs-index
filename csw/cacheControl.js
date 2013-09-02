@@ -22,6 +22,7 @@ module.exports = function (cswUrl, parser, callback) {
         if (doc) {
             parser.write(doc.response);
             parser.end();
+            return;
         }
         
         request(cswUrl, gotCswResponse);

@@ -8,7 +8,7 @@ var fs = require('fs'),
     pairs = [];
 
 _.each(files, function (filename) {
-    if (__filename.indexOf(filename) === -1) {
+    if (filename !== 'index.js') {
         var key = filename.replace('.js', '');
         pairs.push([key, require('./' + key).toString()]);
     }

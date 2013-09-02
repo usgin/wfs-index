@@ -50,7 +50,7 @@ var couch = {
         parseFeatures(
             connection.db.use('wfs-cache'), 
             connection.db.use('feature-cache'), 
-            hashUrl(wfsRequestUrl), 
+            hashUrl(wfsRequestUrl),
             callback
         );
     },
@@ -67,6 +67,19 @@ var couch = {
             docId = hashUrl(cswRequestUrl);
         
         updateDoc(connection.db.use('csw-cache'), docId, doc, callback);
+    },
+    
+    setup: function (callback) {
+        require('./makeDbs')(connection, dbNames, function (err) {
+            if (err) { callback(err); return; }
+            require('./feature-cache').setup(function (err) {
+                if (err) { callback(err); return; }
+                require('./csw-cache').setup(function (err) {
+                    if (err) { callback(err); return; }
+                    callback(null, null);
+                });
+            });
+        });
     }
 };
 

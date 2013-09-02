@@ -36,11 +36,11 @@ module.exports = function (wfsDb, featureDb, wfsId, callback) {
         _.each(geojson, cacheFeature);
     }
     
-    function gotWfsResponse(err, wfsDoc) {
+    function gotWfsDoc(err, wfsDoc) {
         if (err) { callback(err); return; }
-        
+            
         wfs2geojson(wfsDoc.response, gotFeatures);
     }
     
-    wfsDb.get(wfsId, gotWfsResponse);
+    wfsDb.get(wfsId, gotWfsDoc);
 };
