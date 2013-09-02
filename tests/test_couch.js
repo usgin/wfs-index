@@ -1,12 +1,12 @@
-var vows = require('vows'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('underscore'),
+    
     couch = require('../couch'),
     featureCache = require('../couch/feature-cache'),
     cswCache = require('../couch/csw-cache'),
     testData = require('../testData');
 
-vows.describe('The CouchDB Module').addBatch({
+module.exports = {
     'when asked to purge the databases': {
         topic: function () {
             couch.purgeDbs(this.callback);
@@ -141,4 +141,4 @@ vows.describe('The CouchDB Module').addBatch({
             }
         }
     }
-}).export(module);
+};

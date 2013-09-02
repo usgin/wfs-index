@@ -14,7 +14,7 @@ var crypto = require('crypto'),
 
 function hashUrl(url) {
     var hash = crypto.createHash('sha256');
-    hash.update(url);
+    hash.update(decodeURIComponent(url).toUpperCase());
     return hash.digest('hex');
 }
 
@@ -37,7 +37,7 @@ var couch = {
     
     cacheWfs: function (wfsRequestUrl, wfsResponseString, callback) {
         var doc = { 
-                requestUrl: wfsRequestUrl,
+                requestUrl: decodeURIComponent(wfsRequestUrl),
                 response: wfsResponseString 
             },
             
@@ -59,7 +59,7 @@ var couch = {
         var parsedUrl = url.parse(cswRequestUrl, true, true),
             
             doc = {
-                requestUrl: cswRequestUrl,
+                requestUrl: decodeURIComponent(cswRequestUrl),
                 requestType: parsedUrl.query.request,
                 response: cswResponseString
             },

@@ -17,10 +17,11 @@ Distribution.prototype.looksLikeWfs = function () {
         return true;
     }
     
-    var wfsGuessExpressions = [ /request=getcapabilities/i, /service=wfs/i ];
-        
-    return _.all(wfsGuessExpressions, function (expression) {
-        return this.url.match(expression) !== null;
+    var wfsGuessExpressions = [ /request=getcapabilities/i, /service=wfs/i ],
+        theUrl = this.url;
+    
+    return _.every(wfsGuessExpressions, function (expression) {
+        return theUrl.match(expression) !== null;
     });
 };
 

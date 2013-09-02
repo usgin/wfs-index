@@ -28,13 +28,13 @@ CSW.prototype.getRecordsUrl = function (start, limit) {
         version: '2.0.2',
         request: 'GetRecords',
         typeNames: 'gmd:MD_Metadata',
-        outputSchema: 'http://isotc211.org/2005/gmd',
+        outputSchema: 'http://www.isotc211.org/2005/gmd',
         elementSetName: 'brief',
         resultType: 'results',
         maxRecords: limit || 10,
         startPosition: start
     };
-
+    
     return this.baseUrl + '?' + qs.stringify(query);
 };
 
@@ -46,9 +46,8 @@ CSW.prototype.getRecordByIdUrl = function (recordId) {
         version: '2.0.2',
         request: 'GetRecordById',
         typeNames: 'gmd:MD_Metadata',
-        outputSchema: 'http://isotc211.org/2005/gmd',
+        outputSchema: 'http://www.isotc211.org/2005/gmd',
         elementSetName: 'full',
-        resultType: 'results',
         id: recordId
     };
 

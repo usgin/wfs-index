@@ -1,5 +1,4 @@
-var vows = require('vows'),
-    assert = require('assert'),
+var assert = require('assert'),
     _ = require('underscore'),
     
     WFS = require('../wfs'),
@@ -7,7 +6,7 @@ var vows = require('vows'),
 
     wfs100GetFeatureUrl, wfs110GetFeatureUrl;
 
-vows.describe('The WFS Module').addBatch({
+module.exports = {
     'after construction against a known WFS 1.1.0 endpoint': {
         topic: function () {
             var url = 'http://services.azgs.az.gov/ArcGIS/services/aasggeothermal/AKThermalSprings1_8/MapServer/WFSServer';
@@ -43,7 +42,7 @@ vows.describe('The WFS Module').addBatch({
                     assert.isNull(err);    
                 },
                 'and looks right': function (err, doc) {
-                    assert.equal(doc.requestUrl, wfs110GetFeatureUrl);
+                    assert.equal(doc.requestUrl, decodeURIComponent(wfs110GetFeatureUrl));
                 }
             },
             'creates records in the feature-cache': {
@@ -106,7 +105,7 @@ vows.describe('The WFS Module').addBatch({
                     assert.isNull(err);    
                 },
                 'and looks right': function (err, doc) {
-                    assert.equal(doc.requestUrl, wfs100GetFeatureUrl);
+                    assert.equal(doc.requestUrl, decodeURIComponent(wfs100GetFeatureUrl));
                 }
             },
             'creates records in the feature-cache': {
@@ -133,4 +132,4 @@ vows.describe('The WFS Module').addBatch({
             }
         }
     }
-}).export(module);
+};

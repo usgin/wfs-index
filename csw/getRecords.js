@@ -21,7 +21,7 @@ module.exports = function (start, limit, callback) {
             total = Number(attrs.numberOfRecordsMatched);
         } else if (_.contains(fileIdEleName, name)) {
             inFileId = true;
-        } else if (_.contains(stringEleName, name)) {
+        } else if (inFileId && _.contains(stringEleName, name)) {
             inString = true;
         }
     });

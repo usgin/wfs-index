@@ -17,6 +17,7 @@ module.exports = function (recordId, callback) {
         stringEleName = ['gco:CharacterString', 'CharacterString'],
         fileIdEleName = ['gmd:fileIdentifier', 'fileIdentifier'],
         thisDistribution = null,
+        thisUrl = '',
         wfsUrls = [];
     
     parser.on('startElement', function (name, attrs) {
@@ -34,7 +35,7 @@ module.exports = function (recordId, callback) {
 
     parser.on('text', function (text) {
         if (inUrl) {
-            thisDistribution.addUrl(text);
+            thisUrl += text;
         } else if (inProtocol && inString) {
             thisDistribution.addProtocol(text);
         }
@@ -51,6 +52,8 @@ module.exports = function (recordId, callback) {
         } else if (inProtocol && _.contains(protEleName, name)) {
             inProtocol = false;
         } else if (inString && _.contains(stringEleName, name)) {
+            thisDistribution.addUrl(thisUrl);
+            thisUrl = '';
             inString = false;
         }
     });

@@ -9,17 +9,19 @@ module.exports = {
     },
     
     cswGetRecordsResponse: {
-        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?request=GetRecords&service=CSW&version=2.0.2&typenames=csw:Record&outputSchema=http://www.isotc211.org/2005/gmd&maxrecords=10&elementsetname=brief&resulttype=results',
+        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?service=CSW&version=2.0.2&request=GetRecords&typeNames=gmd:MD_Metadata&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=brief&resultType=results&maxRecords=10&startPosition=1',
         response: fs.readFileSync(path.join(here, 'cswGetRecords.xml')).toString()
     },
     
     cswGetRecordWithWfs: {
-        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?request=GetRecordById&service=CSW&version=2.0.2&typenames=csw:Record&outputSchema=http://www.isotc211.oe=full&id=ba2f0b9d21f71acfe10609f76e17d55a',
-        response: fs.readFileSync(path.join(here, 'cswGetRecordById_withWfs.xml')).toString()
+        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?service=CSW&version=2.0.2&request=GetRecordById&typeNames=gmd:MD_Metadata&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=full&id=ba2f0b9d21f71acfe10609f76e17d55a',
+        response: fs.readFileSync(path.join(here, 'cswGetRecordById_withWfs.xml')).toString(),
+        recordId: 'ba2f0b9d21f71acfe10609f76e17d55a'
     },
     
     cswGetRecordNoWfs: {
-        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?request=GetRecordById&service=CSW&version=2.0.2&typenames=csw:Record&outputSchema=http://www.isotc211.org/2005/gmd&elementsetname=full&id=50ec3aefb656b70647f32e38bc92c514',
-        response: fs.readFileSync(path.join(here, 'cswGetRecordById_noWfs.xml')).toString()
+        url: 'http://catalog.stategeothermaldata.org/geoportal/csw?service=CSW&version=2.0.2&request=GetRecordById&typeNames=gmd:MD_Metadata&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=full&id=50ec3aefb656b70647f32e38bc92c514',
+        response: fs.readFileSync(path.join(here, 'cswGetRecordById_noWfs.xml')).toString(),
+        recordId: '50ec3aefb656b70647f32e38bc92c514'
     }
 };
