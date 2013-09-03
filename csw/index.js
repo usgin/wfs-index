@@ -54,10 +54,10 @@ CSW.prototype.getRecordByIdUrl = function (recordId) {
     return this.baseUrl + '?' + qs.stringify(query);
 };
 
-CSW.prototype.getRecords = require('./getRecords');
+CSW.prototype.getRecords = require('./getRecords');         // function (start, limit, callback)
 
-CSW.prototype.getRecordById = require('./getRecordById');
+CSW.prototype.getRecordById = require('./getRecordById');   // function (recordId, callback)
 
-CSW.prototype.harvest = require('./harvest');
+CSW.prototype.harvest = require('./harvest');               // function (callback)
 
 module.exports = CSW;

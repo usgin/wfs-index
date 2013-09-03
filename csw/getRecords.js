@@ -14,7 +14,7 @@ module.exports = function (start, limit, callback) {
         inString = false,
         ids = [],
         next, total;
-        
+
     parser.on('startElement', function (name, attrs) {
         if (_.contains(resultsEleName, name)) {
             next = Number(attrs.nextRecord);

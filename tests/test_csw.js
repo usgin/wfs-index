@@ -99,14 +99,14 @@ module.exports = {
         },
         'can load a remote GetRecordById request': {
             topic: function () {
-                var csw = new CSW('http://catalog.stategeothermaldata.org/geoportal/csw');
-                csw.getRecordById('cc54f15894222c91e71e4530dc02cd38', this.callback);
+                var csw = new CSW('http://localhost:8000/');
+                csw.getRecordById('9e15e1a59b768b330d029e86dc06d9a2', this.callback);
             },
             'without error': function (err, wfsUrls) {
                 assert.isNull(err);    
             },
             'and find the right WFS URL': function (err, wfsUrls) {
-                assert.equal('http://web2.nbmg.unr.edu/ArcGIS/services/CO_Data/COaqSpringChemistry/MapServer/WFSServer?request=GetCapabilities&service=WFS', wfsUrls[0]);    
+                assert.equal('http://geothermal.isgs.illinois.edu/ArcGIS/services/aasggeothermal/MORockChemistry/MapServer/WFSServer?request=GetCapabilities&service=WFS', wfsUrls[0]);    
             }
         },
         'can load a remote GetRecord request': {

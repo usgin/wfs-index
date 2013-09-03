@@ -4,7 +4,7 @@
   "description": "Scrape a WFS into a Solr index",
   "main": "index.js",
   "scripts": {
-    "prepublish": "node setup.js",
+    "prepublish": "git submodule init; git submodule update; node setup.js",
     "test": "NODE_ENV=testing vows tests/test_all.js --spec"
   },
   "repository": {
