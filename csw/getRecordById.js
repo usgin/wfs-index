@@ -8,16 +8,33 @@ module.exports = function (recordId, callback) {
         
         parser = new expat.Parser('UTF-8'),
         inUrl = false,
-        inDist = false,
-        inProtocol = false,
-        inString = false,
         urlEleName = ['gmd:URL', 'URL'],
-        distEleName = ['gmd:CI_OnlineResource', 'CI_OnlineResource'],
-        protEleName = ['gmd:protocol', 'protocol'],
-        stringEleName = ['gco:CharacterString', 'CharacterString'],
-        fileIdEleName = ['gmd:fileIdentifier', 'fileIdentifier'],
-        thisDistribution = null,
         thisUrl = '',
+        
+        inDist = false,
+        distEleName = ['gmd:CI_OnlineResource', 'CI_OnlineResource'],
+        
+        inProtocol = false,
+        protEleName = ['gmd:protocol', 'protocol'],
+        protocol = '',
+    
+        inCitation = false,
+        citationEleName = ['gmd:citation', 'citation'],
+        
+        inTitle = false,
+        titleEleName = ['gmd:title', 'title'],
+        title = '',
+        
+        inAbstract = false,
+        abstractEleName = ['gmd:abstract', 'abstract'],
+        abstract = '',
+        
+        inKeyword = false,
+        keywordEleName = ['gmd:keyword', 'keyword'],
+        thisKeyword = '',
+        keywords = [],
+        
+        thisDistribution = null,
         wfsUrls = [];
     
     parser.on('startElement', function (name, attrs) {
@@ -28,16 +45,28 @@ module.exports = function (recordId, callback) {
             inUrl = true;
         } else if (inDist && _.contains(protEleName, name)) {
             inProtocol = true;
-        } else if (inProtocol && _.contains(stringEleName, name)) {
-            inString = true;
+        } else if (_.contains(citationEleName, name)) {
+            inCitation = true;
+        } else if (inCitation && _.contains(titleEleName, name)) {
+            inTitle = true;    
+        } else if (_.contains(abstractEleName, name)) {
+            inAbstract = true;    
+        } else if (_.contains(keywordEleName, name)) {
+            inKeyword = true;    
         }
     });
 
     parser.on('text', function (text) {
         if (inUrl) {
             thisUrl += text;
-        } else if (inProtocol && inString) {
-            thisDistribution.addProtocol(text);
+        } else if (inProtocol) {
+            protocol += text;
+        } else if (inTitle) {
+            title += text;    
+        } else if (inAbstract) {
+            abstract += text;    
+        } else if (inKeyword) {
+            thisKeyword += text;
         }
     });
 
@@ -48,18 +77,30 @@ module.exports = function (recordId, callback) {
                 wfsUrls.push(thisDistribution.url);
             }
         } else if (inUrl && _.contains(urlEleName, name)) {
+            thisDistribution.addUrl(thisUrl.trim());
+            thisUrl = '';
             inUrl = false;
         } else if (inProtocol && _.contains(protEleName, name)) {
+            thisDistribution.addProtocol(protocol.trim());
+            protocol = '';
             inProtocol = false;
-        } else if (inString && _.contains(stringEleName, name)) {
-            thisDistribution.addUrl(thisUrl);
-            thisUrl = '';
-            inString = false;
+        } else if (inCitation && _.contains(citationEleName, name)) {
+            inCitation = false;    
+        }else if (inTitle && _.contains(titleEleName, name)) {
+            title = title.trim();
+            inTitle = false;    
+        } else if (inAbstract && _.contains(abstractEleName, name)) {
+            abstract = abstract.trim();
+            inAbstract = false;    
+        } else if (inKeyword && _.contains(keywordEleName, name)) {
+            keywords.push(thisKeyword.trim());
+            thisKeyword = '';
+            inKeyword = false;    
         }
     });
 
     parser.on('end', function () {
-        callback(null, wfsUrls);
+        callback(null, wfsUrls, title, abstract, keywords);
     });
 
     parser.on('error', function (err) {

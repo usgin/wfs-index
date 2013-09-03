@@ -17,7 +17,11 @@ module.exports = {
         },
         'loading a test GetRecords request': {
             topic: function () {
-                couch.cacheCsw(testData.cswGetRecordsResponse.url, testData.cswGetRecordsResponse.response, this.callback);
+                couch.cacheCsw(
+                    testData.cswGetRecordsResponse.url, 
+                    { response: testData.cswGetRecordsResponse.response },
+                     this.callback
+                );
             },
             'and asking for the cached results': {
                 topic: function () {
@@ -40,7 +44,11 @@ module.exports = {
         },
         'after loading a test GetRecordById request': {
             topic: function () {
-                couch.cacheCsw(testData.cswGetRecordWithWfs.url, testData.cswGetRecordWithWfs.response, this.callback);
+                couch.cacheCsw(
+                    testData.cswGetRecordWithWfs.url,
+                    { response: testData.cswGetRecordWithWfs.response },
+                    this.callback
+                );
             },
             'and asking for the cached results': {
                 topic: function () {
@@ -52,12 +60,29 @@ module.exports = {
                 },
                 'returns a list of WFS URLs': function (err, wfsUrls) {
                     if (!err) { assert(wfsUrls[0] === 'http://kgs.uky.edu/arcgis/services/aasggeothermal/ALBoreholeTemperatures/MapServer/WFSServer?request=GetCapabilities&service=WFS'); }
+                },
+                'returns the right title': function (err, wfsUrls, title) {
+                    if (!err) { assert.equal('Alabama Borehole Temperatures', title); }    
+                },
+                'returns the right abstract': function (err, wfsUrls, title, abstract) {
+                    if (!err) {
+                        assert.equal(
+                            'This resource is a compilation of borehole temperatures observations compiled by the Geological Survey of Alabama, published as a Web feature service for the AASG National Geothermal Data System. The data is available in the following formats: web feature service, web map service, ESRI service and an Excel workbook for download. The workbook contains 6 worksheets, including information about the template, notes related to revisions of the template, resource provider information, the data, a field list (data mapping view) and a worksheet with vocabularies for use in populating the data worksheet (data valid terms). This data was compiled by the Geological Survey of Alabama and made available for distribution through the AASG National Geothermal Data Systems project.',
+                            abstract);
+                    }
+                },
+                'returns the right keywords': function (err, wfsUrls, title, abstract, keywords) {
+                    if (!err) { assert.equal(keywords.length, 13); }    
                 }
             }
         },
         'after loading a test GetRecordById request with no WFS distribution': {
             topic: function () {
-                couch.cacheCsw(testData.cswGetRecordNoWfs.url, testData.cswGetRecordNoWfs.response, this.callback);
+                couch.cacheCsw(
+                    testData.cswGetRecordNoWfs.url,
+                    { response: testData.cswGetRecordNoWfs.response },
+                    this.callback
+                );
             },
             'and asking for the cached results': {
                 topic: function () {

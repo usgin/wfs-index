@@ -13,7 +13,7 @@ module.exports = function (cswUrl, parser, callback) {
     function gotCswResponse(err, response, body) {
         if (err) { callback(err); return; }
         
-        couch.cacheCsw(cswUrl, body, cachedRecord); // function (cswRequestUrl, cswResponseString, callback)
+        couch.cacheCsw(cswUrl, { response: body }, cachedRecord); // function (cswRequestUrl, cswResponseString, callback)
     }
     
     function checkedCache(err, doc) {

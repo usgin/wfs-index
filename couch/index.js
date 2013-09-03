@@ -55,7 +55,12 @@ var couch = {
         );
     },
     
-    cacheCsw: function (cswRequestUrl, cswResponseString, callback) {
+    cacheCsw: function (cswRequestUrl, content, callback) {
+        var cswResponseString = content.response,
+            title = content.title || '',
+            abstract = content.abstract || '',
+            keywords = content.keywords || [];
+        
         var parsedUrl = url.parse(cswRequestUrl, true, true),
             
             doc = {

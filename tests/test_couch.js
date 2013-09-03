@@ -101,7 +101,10 @@ module.exports = {
                 },
                 'then cache a CSW record': {
                     topic: function () {
-                        couch.cacheCsw(testData.cswGetRecordNoWfs.url, testData.cswGetRecordNoWfs.response, this.callback);
+                        couch.cacheCsw(
+                            testData.cswGetRecordNoWfs.url,
+                            { response: testData.cswGetRecordNoWfs.response },
+                            this.callback);
                     },
                     'without error': function (err, response) {
                         assert.isNull(err);
@@ -120,7 +123,10 @@ module.exports = {
                 },
                 'then cache a CSW GetRecords doc': {
                     topic: function () {
-                        couch.cacheCsw(testData.cswGetRecordsResponse.url, testData.cswGetRecordsResponse.response, this.callback);
+                        couch.cacheCsw(
+                            testData.cswGetRecordsResponse.url, 
+                            { response: testData.cswGetRecordsResponse.response },
+                            this.callback);
                     },
                     'without error': function (err, response) {
                         assert.isNull(err);
