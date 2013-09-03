@@ -35,6 +35,25 @@ var couch = {
         require('./purgeDbs')(connection, dbNames, callback);
     },
     
+    setup: function (callback) {
+        var dbSetups = [
+            require('./feature-cache').setup,
+            require('./csw-cache').setup,
+            require('./cache-logs').setup
+        ];
+        
+        function nextSetup(err) {
+            if (err) { callback(err); return; }
+            if (dbSetups.length > 0) {
+                dbSetups.pop()(nextSetup);
+            } else {
+                callback(null, null);
+            }
+        }
+        
+        require('./makeDbs')(connection, dbNames, nextSetup);
+    },
+    
     cacheWfs: function (wfsRequestUrl, wfsResponseString, callback) {
         var doc = { 
                 requestUrl: decodeURIComponent(wfsRequestUrl),
@@ -74,23 +93,23 @@ var couch = {
         updateDoc(connection.db.use('csw-cache'), docId, doc, callback);
     },
     
-    setup: function (callback) {
-        var dbSetups = [
-            require('./feature-cache').setup,
-            require('./csw-cache').setup,
-            require('./cache-logs').setup
-        ];
+    writeLog: function (logType, content, callback) {
+        var db = connection.db.use('cache-logs'),
+            doc = {
+                type: logType,
+                dateTime: new Date().toISOString()
+            };
         
-        function nextSetup(err) {
-            if (err) { callback(err); return; }
-            if (dbSetups.length > 0) {
-                dbSetups.pop()(nextSetup);
-            } else {
-                callback(null, null);
-            }
+        content = _.isObject(content) ? content : { message: content };
+        if (!content.hasOwnProperty('message')) {
+            content.message = '';
         }
         
-        require('./makeDbs')(connection, dbNames, nextSetup);
+        if (logType === 'job' || logType === 'message') {
+            updateDoc(db, null, _.extend(doc, content), callback);
+        } else {
+            callback(new Error('Invalid log type was specified'));
+        }
     }
 };
 

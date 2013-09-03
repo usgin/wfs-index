@@ -9,7 +9,7 @@ var byLogTypeReduce = function (keys, values) {
 var byJob = function (doc) {
     if (doc.type === 'message') {
         emit(doc.job, {
-            status: doc.status,
+            status: doc.status || 'UNKNOWN',
             message: doc.message,
             time: doc.dateTime
         });

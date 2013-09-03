@@ -151,6 +151,14 @@ module.exports = {
                 },
                 'contains a design document': function (err, response) {
                     assert.equal(response.rows.length, 1);
+                },
+                'can be written to': {
+                    topic: function () {
+                        couch.writeLog('job', 'Some Job', this.callback);
+                    },
+                    'without failure': function (err, response) {
+                        assert.isNull(err);    
+                    }
                 }
             }
         }
