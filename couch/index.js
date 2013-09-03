@@ -105,8 +105,10 @@ var couch = {
             content.message = '';
         }
         
+        _.extend(doc, content);
+        
         if (logType === 'job' || logType === 'message') {
-            updateDoc(db, null, _.extend(doc, content), callback);
+            updateDoc(db, null, doc, callback);
         } else {
             callback(new Error('Invalid log type was specified'));
         }
