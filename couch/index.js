@@ -6,7 +6,7 @@ var crypto = require('crypto'),
     
     config = require('../configuration'),
     
-    dbNames = [ 'csw-cache', 'wfs-cache', 'feature-cache' ],
+    dbNames = [ 'csw-cache', 'wfs-cache', 'feature-cache', 'cache-logs' ],
     connection = require('nano')(config.dbHost),
     
     updateDoc = require('./updateDoc'),         // function (db, docId, document, callback)
@@ -75,16 +75,22 @@ var couch = {
     },
     
     setup: function (callback) {
-        require('./makeDbs')(connection, dbNames, function (err) {
+        var dbSetups = [
+            require('./feature-cache').setup,
+            require('./csw-cache').setup,
+            require('./cache-logs').setup
+        ];
+        
+        function nextSetup(err) {
             if (err) { callback(err); return; }
-            require('./feature-cache').setup(function (err) {
-                if (err) { callback(err); return; }
-                require('./csw-cache').setup(function (err) {
-                    if (err) { callback(err); return; }
-                    callback(null, null);
-                });
-            });
-        });
+            if (dbSetups.length > 0) {
+                dbSetups.pop()(nextSetup);
+            } else {
+                callback(null, null);
+            }
+        }
+        
+        require('./makeDbs')(connection, dbNames, nextSetup);
     }
 };
 

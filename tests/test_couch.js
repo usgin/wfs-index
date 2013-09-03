@@ -28,7 +28,7 @@ module.exports = {
         },
         'and then re-create them': {
             topic: function () {
-                couch.makeDbs(this.callback);
+                couch.setup(this.callback);
             },
             'puts': {
                 topic: function () {
@@ -143,6 +143,14 @@ module.exports = {
                             assert.equal(response.rows[0].value, 1);
                         }
                     }
+                }
+            },
+            '-- the cache-logs database': {
+                topic: function () {
+                    couch.dbs['cache-logs'].list(this.callback);
+                },
+                'contains a design document': function (err, response) {
+                    assert.equal(response.rows.length, 1);
                 }
             }
         }
