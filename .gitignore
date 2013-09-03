@@ -5,3 +5,5 @@ cache/*
 !cache/index.js
 configuration.js
 defaults.json
+testCswServer/default.cfg
+testCswServer/records.db
