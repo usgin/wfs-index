@@ -11,4 +11,4 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install gdal-bin
   - ogr2ogr --formats
-  - pip install python-pycsw python-dateutil python-tz
+  - sudo apt-get install python-pycsw python-dateutil python-tz
