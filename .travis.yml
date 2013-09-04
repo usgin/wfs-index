@@ -7,7 +7,7 @@ services:
 before_install:
   - sudo apt-get install python-software-properties
   - sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable -y
-  - sudo add-apt-repository ppa:gcpp-kalxas/ppa-tzotsos
+  - sudo add-apt-repository ppa:gcpp-kalxas/ppa-tzotsos -y
   - sudo apt-get update
   - sudo apt-get install gdal-bin
   - ogr2ogr --formats
