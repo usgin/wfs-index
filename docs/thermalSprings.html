@@ -101,7 +101,7 @@ These will become the fields that you can search the Solr index on.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            id: props.ThermalSpringsURI,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            id: props.ThermalSpringURI,</pre></div></div>
             
         </li>
         
@@ -131,7 +131,7 @@ These will become the fields that you can search the Solr index on.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            url: props.ThermalSpringsURI,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>            url: props.ThermalSpringURI,</pre></div></div>
             
         </li>
         
@@ -150,8 +150,7 @@ These will become the fields that you can search the Solr index on.</p>
             label_t: props.Label,
             othername_t: props.OtherName,
             otheridentifier_t: props.OtherIdentifier,
-            description_t: props.description
-        }</pre></div></div>
+            description_t: props.Description,</pre></div></div>
             
         </li>
         
@@ -159,8 +158,27 @@ These will become the fields that you can search the Solr index on.</p>
         <li id="section-9">
             <div class="annotation">
               
-              <div class="pilwrap ">
+              <div class="pilwrap for-h3">
                 <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <h3>Index the geometry</h3>
+<p>It is very important to index the geometry properly.
+For points, this is as simple as listing the coordinates as <code>x y</code> or <code>lon lat</code>
+<a href="http://wiki.apache.org/solr/SolrAdaptersForLuceneSpatial4">Here is more information about Geo and Solr</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            geo: feature.geometry.coordinates[<span class="number">0</span>] + <span class="string">' '</span> + feature.geometry.coordinates[<span class="number">1</span>]
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Finally, instruct CouchDB to &quot;emit&quot; the result.</p>
 <p>It is important to give <code>doc.wfsDocId</code> as the key. This will allow the results to be narrowed down to a single WFS if appropriate</p>

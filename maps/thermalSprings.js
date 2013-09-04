@@ -27,7 +27,12 @@ module.exports = function (feature) {
             label_t: props.Label,
             othername_t: props.OtherName,
             otheridentifier_t: props.OtherIdentifier,
-            description_t: props.Description
+            description_t: props.Description,
+            // ### Index the geometry
+            // It is very important to index the geometry properly.
+            // For points, this is as simple as listing the coordinates as `x y` or `lon lat`
+            // [Here is more information about Geo and Solr](http://wiki.apache.org/solr/SolrAdaptersForLuceneSpatial4)
+            geo: feature.geometry.coordinates[0] + ' ' + feature.geometry.coordinates[1]
         }
         // Finally, instruct CouchDB to "emit" the result.
         // 
