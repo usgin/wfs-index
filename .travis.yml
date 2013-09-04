@@ -11,5 +11,5 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install gdal-bin
   - ogr2ogr --formats
-  - sudo apt-get install python-pycsw
+  - sudo apt-get install python-pycsw python-dateutil
   - curl https://raw.github.com/rclark/travis-solr/master/travis-solr.sh | SOLR_VERSION=4.4.0 bash
