@@ -48,3 +48,19 @@ This Solr index will provide an endpoint that can be searched by a thin, front-e
 ### Writing mapping functions
 
 Starter mapping functions are included in the `maps` directory. See [the thermal springs example](https://rawgithub.com/usgin/wfs-index/master/docs/thermalSprings.html) for an introduction to how to write these functions.
+
+## Running Tests:
+
+The tests rely on an included version of [pycsw](http://pycsw.org). This comes as a Git Submodule. If you haven't already:
+
+    git submodule init
+    git submodule update
+    
+After that's cloned, you can move into the `pycsw` folder and install it:
+
+    cd pycsw
+    python setup.py install
+    
+That's pretty much just to get dependencies in place. Once you're finished you can just
+
+    npm test
