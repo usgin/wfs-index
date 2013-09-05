@@ -1,0 +1,51 @@
+<!doctype html>
+<html style="height:100%;width:100%">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Solr Browser</title>
+        
+        <link rel="stylesheet" href="http://normalize-css.googlecode.com/svn/trunk/normalize.css" />
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+        <link rel="stylesheet" href="cluster/MarkerCluster.css">
+        <link rel="stylesheet" href="cluster/MarkerCluster.Default.css">
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+            <link rel="stylesheet" href="/cluster/MarkerCluster.Default.ie.css">
+        <![endif]-->
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+        <style type="text/css">
+            .marker-cluster-custom {
+                background-color: #5e75c1;
+            }
+            
+            .marker-cluster-custom div {
+                background-color: #254ed6;
+                color: white;
+            }
+            
+            .leaflet-popup-content-wrapper {
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+            }
+        </style>
+    </head>
+    <body style="height:100%;width:100%;margin:0px;padding:0px;">
+        <div id="map" style="height:100%;width:100%"></div>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+        <script src="cluster/leaflet.markercluster.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/layers.js"></script>
+        <script src="js/layers/solr.js"></script>
+        <script src="js/layers/solrClustered.js"></script>
+        <script src="js/map.js"></script>
+        <script src="js/map/map.js"></script>
+        <script src="js/map/layers.js"></script>
+        <script src="js/map/layers/base.js"></script>
+        <script src="js/map/layers/solr.js"></script>
+    </body>
+</html>
