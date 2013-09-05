@@ -105,7 +105,7 @@ WFS.prototype.getAllFeatures = function (featuretype, callback) {
     function checkCache(err, doc) {
         if (err && err.status_code !== 404) { callback(err); return; }
         
-        if (doc) { callback(null, doc._id); return; }
+        if (doc) { cachedWfs(null, null); return; } // callback(null, doc._id)
         
         request(getFeatureUrl, gotWfsResponse);  
     }
