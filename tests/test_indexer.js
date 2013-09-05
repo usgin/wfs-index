@@ -1,7 +1,17 @@
-var vows = require('vows'),
-    assert = require('assert'),
-    indexer = require('../indexer');
+var assert = require('assert');
 
-vows.describe('The Indexing Module').addBatch({
-
-}).export(module);
+module.exports = {
+    'The Indexer': {
+        topic: function () {
+            return require('../indexer');    
+        },
+        'can addDocs': {
+            topic: function (indexer) {
+                indexer.addToIndex('wholeRockMajorElements', this.callback);
+            },
+            'without error': function (err, response, anything) {
+                assert.isNull(err);    
+            }
+        }
+    }
+}
