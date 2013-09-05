@@ -2,7 +2,7 @@ var assert = require('assert'),
     request = require('request'),
 
     couch = require('../couch'),
-    main = require('../main');
+    scrapeCsw = require('../main');
 
 module.exports = {
     'The Main module': {
@@ -10,7 +10,7 @@ module.exports = {
             var cb = this.callback;
             
             function couchSetup() {
-                main.scrapeCsw({ cswUrl: 'http://localhost:8000/' }, cb);
+                scrapeCsw({ cswUrl: 'http://localhost:8000/', featureType: 'aasg:WRMajorElements' }, cb);
             }
             
             function dbsPurged() {
@@ -22,8 +22,14 @@ module.exports = {
         'does not fail': function (err, wfsUrls) {
             assert.isNull(err);    
         },
-        'returns five WFS URLs': function (err, wfsUrls) {
-            assert.equal(wfsUrls.length, 5);    
+        'returns one successful WFS': function (err, wfsSet, rejects, errors) {
+            assert.equal(wfsSet.length, 1);
+        },
+        'returns four rejected WFS': function (err, wfsSet, rejects, errors) {
+            assert.equal(rejects.length, 4);
+        },
+        'returns no errored WFS': function (err, wfsSet, rejects, errors) {
+            assert.equal(errors.length, 0);
         },
         'caches one GetRecords response': {
             topic: function () {
@@ -46,6 +52,23 @@ module.exports = {
                     assert.equal(response.rows[0].value, 6);
                 } else {
                     assert(false, 'There were no GetRecordById docs cached');
+                }
+            }
+        },
+        'caches 2612 GeoJSON features': {
+            topic: function () {
+                couch.dbs['feature-cache'].view(
+                    'internal', 
+                    'byWfsDocId', 
+                    { key: 'b241f416d8603a67db5d2c4f24db14d27e67e397dfbd4fdcc64899acd1f293d5' },
+                    this.callback
+                );
+            },
+            'successfully': function (err, response) {
+                if (response.rows.length > 0) {
+                    assert.equal(response.rows[0].value, 2612)
+                } else {
+                    assert(false, 'No features were cached');
                 }
             }
         }
