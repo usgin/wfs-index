@@ -12,3 +12,4 @@ before_install:
   - sudo apt-get install gdal-bin
   - ogr2ogr --formats
   - sudo apt-get install python-pycsw python-dateutil python-tz python-sqlalchemy
+before_script: curl https://raw.github.com/rclark/travis-solr/master/travis-solr.sh | SOLR_VERSION=4.4.0 bash
