@@ -9,6 +9,7 @@ vows.describe('The wfs-index app')
     .addBatch(server.start)
     .addBatch(require('./test_csw'))
     .addBatch(require('./test_main'))
+    .addBatch(require('./test_indexFeatures'))
     .addBatch(server.stop)
     .addBatch(require('./test_indexer'))
     .export(module);
