@@ -6,7 +6,7 @@ var crypto = require('crypto'),
     
     config = require('../configuration'),
     
-    dbNames = [ 'csw-cache', 'wfs-cache', 'feature-cache', 'cache-logs' ],
+    dbNames = [ 'csw-cache', 'wfs-cache', 'feature-cache', 'cache-logs', 'cluster-cache' ],
     connection = require('nano')(config.dbHost),
     
     updateDoc = require('./updateDoc'),         // function (db, docId, document, callback)

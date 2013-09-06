@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // # indexFeatures.js
 //
 // This file can be used to run an indexing job.
