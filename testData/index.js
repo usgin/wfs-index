@@ -23,5 +23,15 @@ module.exports = {
         url: 'http://catalog.stategeothermaldata.org/geoportal/csw?service=CSW&version=2.0.2&request=GetRecordById&typeNames=gmd:MD_Metadata&outputSchema=http://www.isotc211.org/2005/gmd&elementSetName=full&id=50ec3aefb656b70647f32e38bc92c514',
         response: fs.readFileSync(path.join(here, 'cswGetRecordById_noWfs.xml')).toString(),
         recordId: '50ec3aefb656b70647f32e38bc92c514'
-    }
+    },
+    
+    clusteredAt10: fs.readFileSync(path.join(here, 'clusteredAt10.geojson')).toString(),
+    
+    clusteredAt8: fs.readFileSync(path.join(here, 'clusteredAt8.geojson')).toString(),
+    
+    clusteredAt7: fs.readFileSync(path.join(here, 'clusteredAt7.geojson')).toString(),
+    
+    clusteredAt6: fs.readFileSync(path.join(here, 'clusteredAt6.geojson')).toString(),
+    
+    clusterCollection: fs.readFileSync(path.join(here, 'clusterCollection.geojson')).toString()
 };
