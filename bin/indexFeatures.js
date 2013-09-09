@@ -25,7 +25,6 @@ function itsGoTime(cswUrl, featureType, viewName, callback) {
         }
         
         console.log('Completed successfully');
-        console.log(response);
         callback(null, 'You win');
     }
     
