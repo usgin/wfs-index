@@ -39,7 +39,8 @@ var couch = {
         var dbSetups = [
             require('./feature-cache').setup,
             require('./csw-cache').setup,
-            require('./cache-logs').setup
+            require('./cache-logs').setup,
+            require('./cluster-cache').setup
         ];
         
         function nextSetup(err) {
