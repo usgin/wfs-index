@@ -113,6 +113,10 @@ var couch = {
         } else {
             callback(new Error('Invalid log type was specified'));
         }
+    },
+    
+    clearCswCache: function (callback) {
+        require('./clear')(connection.db.use('csw-cache'), callback);    
     }
 };
 

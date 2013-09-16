@@ -141,6 +141,21 @@ module.exports = {
                         },
                         'the expected number of docs': function (err, response) {
                             assert.equal(response.rows[0].value, 1);
+                        },
+                        'and then clears': {
+                            topic: function () {
+                                var cb = this.callback;
+                                couch.clearCswCache(function (err, result) {
+                                    couch.dbs['csw-cache'].list(cb);
+                                });    
+                            },
+                            'the csw cache successfully': function (err, response) {
+                                var docs = _.reject(response.rows, function (row) {
+                                    return row.id.indexOf('_design') === 0;    
+                                });
+                                
+                                assert.equal(docs.length, 0);
+                            }
                         }
                     }
                 }
