@@ -12,5 +12,6 @@ vows.describe('The wfs-index app')
     .addBatch(require('./test_indexFeatures'))
     .addBatch(server.stop)
     .addBatch(require('./test_indexer'))
+    .addBatch(require('./test_clustering'))
     .export(module);
     //.run();

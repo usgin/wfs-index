@@ -117,6 +117,22 @@ var couch = {
     
     clearCswCache: function (callback) {
         require('./clear')(connection.db.use('csw-cache'), callback);    
+    },
+    
+    clearLogCache: function (callback) {
+        require('./clear')(connection.db.use('cache-logs'), callback);    
+    },
+    
+    clearClusterCache: function (callback) {
+        require('./clear')(connection.db.use('cluster-cache'), callback);    
+    },
+    
+    clearFeatureCache: function (callback) {
+        require('./clear')(connection.db.use('feature-cache'), callback);    
+    },
+    
+    clearWfsCache: function (callback) {
+        require('./clear')(connection.db.use('wfs-cache'), callback);    
     }
 };
 
