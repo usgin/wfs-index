@@ -29,7 +29,8 @@
     "node-expat": "~2.0.0",
     "nano": "~4.1.1",
     "optimist": "~0.6.0",
-    "express": "~3.3.8"
+    "express": "~3.3.8",
+    "jsdom": "~0.8.4"
   },
   "devDependencies": {
     "vows": "~0.7.0"
